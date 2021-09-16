@@ -50,31 +50,35 @@ public class MainActivity extends AppCompatActivity {
         for(int i=0;i<31; i++){
             for(int j=0; j<26; j++){
                 this.casillas[i][j] = new ImageView(this);
-               /* if(i==0){
-                    this.casillas[i][j].setImageResource(R.mipmap.ic_launcher);
-                }
-                if(i==30){
-                    this.casillas[i][j].setText("5");
+               if(i==0){
+                   this.casillas[i][j].setImageResource(R.mipmap.horizo_arri);
                 }
                 if(j==0){
-                    this.casillas[i][j].setText("6");
+                    this.casillas[i][j].setImageResource(R.mipmap.vertical_izq);
+                }
+                if(i==30){
+                    this.casillas[i][j].setImageResource(R.mipmap.horizo_aba);
                 }
                 if(j==25){
-                    this.casillas[i][j].setText("6");
-                }*/
+                      this.casillas[i][j].setImageResource(R.mipmap.vertical_der);
+                }
                 if(i==0 & j==0){
                     this.casillas[i][j].setImageResource(R.mipmap.esquina_sup_der);
                 }
-         /*       if(i==0 & j==25){
-                    this.casillas[i][j].setText("2");
+               if(i==0 & j==25){
+                   this.casillas[i][j].setImageResource(R.mipmap.esquina_sup_izq);
                 }
                 if(i==30 & j==0){
-                    this.casillas[i][j].setText("3");
+                    this.casillas[i][j].setImageResource(R.mipmap.inferior_der);
                 }
                 if(i==30 & j==25){
-                    this.casillas[i][j].setText("4");
+                    this.casillas[i][j].setImageResource(R.mipmap.inferior_izq);
+                }
+                if(i== 15 & j==12){
+                    this.casillas[i][j].setImageResource(R.mipmap.pac_izquierda);
                 }
 
+/*
               this.casillas[i][j].setWidth(ancho/26);
                 this.casillas[i][j].setHeight(ancho/26);
                 this.casillas[i][j].setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
