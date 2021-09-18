@@ -3,17 +3,13 @@ package com.example.pacmanv11;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Point;
-import android.graphics.drawable.Icon;
 import android.os.Bundle;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -78,12 +74,12 @@ public class MainActivity extends AppCompatActivity {
                              {7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8},
                              {7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8},
                              {7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8},
-                             {7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8},
-                             {7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8},
-                             {7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8},
-                             {7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8},
+                             {7,0,0,0,0,0,0,7,0,1,5,5,5,5,5,5,5,2,0,0,0,0,0,0,0,8},
+                             {7,0,0,0,0,0,0,7,0,7,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,8},
+                             {7,0,0,0,0,0,0,7,0,7,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,8},
+                             {7,0,0,6,6,6,6,7,0,3,6,6,6,6,6,6,6,4,0,0,0,0,0,0,0,8},
                              {7,0,0,0,0,0,0,0,0,0,0,0,0,9,0,0,0,0,0,0,0,0,0,0,0,8},
-                             {7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8},
+                             {7,0,0,6,6,6,0,7,0,0,6,6,6,6,6,6,6,0,0,0,0,0,0,0,0,8},
                              {7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8},
                              {7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8},
                              {7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8},
@@ -195,83 +191,49 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public ImageView[][] getCasillas() {
-        return casillas;
-    }
 
-    public void setCasillas(ImageView[][] casillas) {
-        this.casillas = casillas;
-    }
+
 
     private void movimiento() {
-
+        hiloPacIzq hilo = new hiloPacIzq(casillas);
+        hiloPacDer hiloDer = new hiloPacDer(casillas);;
+        hiloPacArr hiloPacArr = new hiloPacArr(casillas);
+        hiloPacAba hiloPacAba = new hiloPacAba(casillas);
         float dx = Math.abs(this.x2 - this.x1);
         float dy = Math.abs(this.y2 - this.y1);
         String dir = null;
+
+
+            hiloDer.acabar();
+            hilo.acabar();
+            hiloPacAba.acabar();
+            hiloPacArr.acabar();
+
+
+
+
+
         if(dx > dy){
             if(this.x2 > this.x1){
-                dir  =  game.izquieda(casillas);
-                actualizar(dir,"der");
+                hilo.start();
+
             }else{
-                dir  =  game.derecha(casillas);
-                actualizar(dir,"izq");
+
+                hiloDer.start();
+
             }
         }else{
             if(this.y2 > this.y1){
-                dir  =  game.abajo(casillas);
-                actualizar(dir,"aba");
+                hiloPacArr.start();
+
             }else{
-                dir  =  game.arriba(casillas);
-                actualizar(dir,"arr");
+                hiloPacAba.start();
             }
         }
-        Toast.makeText(getApplicationContext(), dir, Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(getApplicationContext(), dir, Toast.LENGTH_SHORT).show();
     }
 
-    public void actualizar(String correPac, String dir) {
 
-        String []datos = correPac.split(",");
-
-
-        if(dir == "izq"){
-
-
-            if((String)this.casillas[Integer.parseInt(datos[2])][Integer.parseInt(datos[3])].getTag() == "vacio"){
-                this.casillas[Integer.parseInt(datos[0])][Integer.parseInt(datos[1])].setImageResource(R.mipmap.fondo);
-                this.casillas[Integer.parseInt(datos[0])][Integer.parseInt(datos[1])].setTag("vacio");
-                this.casillas[Integer.parseInt(datos[2])][Integer.parseInt(datos[3])].setImageResource(R.mipmap.pac_izquierda);
-                this.casillas[Integer.parseInt(datos[2])][Integer.parseInt(datos[3])].setTag("pac");
-            }
-
-        }
-        if(dir == "der"){
-            if((String)this.casillas[Integer.parseInt(datos[2])][Integer.parseInt(datos[3])].getTag() == "vacio") {
-                this.casillas[Integer.parseInt(datos[0])][Integer.parseInt(datos[1])].setImageResource(R.mipmap.fondo);
-                this.casillas[Integer.parseInt(datos[0])][Integer.parseInt(datos[1])].setTag("vacio");
-                this.casillas[Integer.parseInt(datos[2])][Integer.parseInt(datos[3])].setImageResource(R.mipmap.pac_izquierda);
-                this.casillas[Integer.parseInt(datos[2])][Integer.parseInt(datos[3])].setTag("pac");
-            }
-        }
-        if(dir == "aba"){
-            if((String)this.casillas[Integer.parseInt(datos[2])][Integer.parseInt(datos[3])].getTag() == "vacio") {
-                this.casillas[Integer.parseInt(datos[0])][Integer.parseInt(datos[1])].setImageResource(R.mipmap.fondo);
-                this.casillas[Integer.parseInt(datos[0])][Integer.parseInt(datos[1])].setTag("vacio");
-                this.casillas[Integer.parseInt(datos[2])][Integer.parseInt(datos[3])].setImageResource(R.mipmap.pac_izquierda);
-                this.casillas[Integer.parseInt(datos[2])][Integer.parseInt(datos[3])].setTag("pac");
-            }
-        }
-        if(dir == "arr"){
-            if((String)this.casillas[Integer.parseInt(datos[2])][Integer.parseInt(datos[3])].getTag() == "vacio") {
-                this.casillas[Integer.parseInt(datos[0])][Integer.parseInt(datos[1])].setImageResource(R.mipmap.fondo);
-                this.casillas[Integer.parseInt(datos[0])][Integer.parseInt(datos[1])].setTag("vacio");
-                this.casillas[Integer.parseInt(datos[2])][Integer.parseInt(datos[3])].setImageResource(R.mipmap.pac_izquierda);
-                this.casillas[Integer.parseInt(datos[2])][Integer.parseInt(datos[3])].setTag("pac");
-            }
-        }
-
-
-
-    }
 
     private void soltarPantalla(float x, float y) {
         this.x2 = x;

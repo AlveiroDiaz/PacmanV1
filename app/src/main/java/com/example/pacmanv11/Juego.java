@@ -7,17 +7,46 @@ import androidx.annotation.Nullable;
 
 public class Juego {
 
-    private  ImageView [][]matriz = new ImageView[31][26];
+    private int xi = 0;
+    private int yi = 0;
+    private int xf = 0;
+    private int yf = 0;
+
+    public int getXi() {
+        return xi;
+    }
+
+    public void setXi(int xi) {
+        this.xi = xi;
+    }
+
+    public int getYi() {
+        return yi;
+    }
+
+    public void setYi(int yi) {
+        this.yi = yi;
+    }
+
+    public int getXf() {
+        return xf;
+    }
+
+    public void setXf(int xf) {
+        this.xf = xf;
+    }
+
+    public int getYf() {
+        return yf;
+    }
+
+    public void setYf(int yf) {
+        this.yf = yf;
+    }
+
+    public void izquieda(ImageView [][]m) {
 
 
-    public String izquieda(ImageView [][]m) {
-
-        String aux1 = null;
-
-        int xi = 0;
-        int yi = 0;
-        int xf = 0;
-        int yf = 0;
 
 
         for(int i=0; i<31;i++){
@@ -38,21 +67,27 @@ public class Juego {
             yf=yi+1;
         }
 
-        aux1 = xi+","+yi+","+xf+","+yf;
 
-        return aux1 ;
+
+
+
+        if((String)m[xf][yf].getTag() == "vacio") {
+            m[xi][yi].setImageResource(R.mipmap.fondo);
+            m[xi][yi].setTag("vacio");
+            m[xf][yf].setImageResource(R.mipmap.pac_izquierda);
+            m[xf][yf].setTag("pac");
+        }
+
+
+
+
 
     }
 
 
-    public String derecha(ImageView [][]m) {
+    public void derecha(ImageView [][]m) {
 
-        String aux1 = null;
 
-        int xi = 0;
-        int yi = 0;
-        int xf = 0;
-        int yf = 0;
 
 
         for(int i=0; i<31;i++){
@@ -73,20 +108,25 @@ public class Juego {
             yf=yi-1;
         }
 
-        aux1 = xi+","+yi+","+xf+","+yf;
 
-        return aux1 ;
+
+        if((String)m[xf][yf].getTag() == "vacio") {
+            m[xi][yi].setImageResource(R.mipmap.fondo);
+            m[xi][yi].setTag("vacio");
+            m[xf][yf].setImageResource(R.mipmap.pac_izquierda);
+            m[xf][yf].setTag("pac");
+        }
+
+
+
+
 
     }
 
-    public String arriba(ImageView [][]m) {
+    public void arriba(ImageView [][]m) {
 
-        String aux1 = null;
 
-        int xi = 0;
-        int yi = 0;
-        int xf = 0;
-        int yf = 0;
+
 
 
         for(int i=0; i<31;i++){
@@ -107,19 +147,25 @@ public class Juego {
             yf=yi;
         }
 
-        aux1 = xi+","+yi+","+xf+","+yf;
 
-        return aux1 ;
+
+
+        if((String)m[xf][yf].getTag() == "vacio") {
+            m[xi][yi].setImageResource(R.mipmap.fondo);
+            m[xi][yi].setTag("vacio");
+            m[xf][yf].setImageResource(R.mipmap.pac_izquierda);
+            m[xf][yf].setTag("pac");
+        }
+
+
+
 
     }
-    public String abajo(ImageView [][]m) {
+    public void abajo(ImageView [][]m) {
 
-        String aux1 = null;
 
-        int xi = 0;
-        int yi = 0;
-        int xf = 0;
-        int yf = 0;
+
+
 
 
         for(int i=0; i<31;i++){
@@ -140,9 +186,15 @@ public class Juego {
             yf=yi;
         }
 
-        aux1 = xi+","+yi+","+xf+","+yf;
 
-        return aux1 ;
+
+        if((String)m[xf][yf].getTag() == "vacio") {
+            m[xi][yi].setImageResource(R.mipmap.fondo);
+            m[xi][yi].setTag("vacio");
+            m[xf][yf].setImageResource(R.mipmap.pac_izquierda);
+            m[xf][yf].setTag("pac");
+        }
+
 
     }
 }
