@@ -11,7 +11,7 @@ public class hiloPacAba extends Thread{
     private int yi = 0;
     private int xf = 0;
     private int yf = 0;
-    private static int apagar = 0;
+    private static boolean apagar;
 
     public hiloPacAba(ImageView[][]m) {
         matriz = m;
@@ -21,13 +21,10 @@ public class hiloPacAba extends Thread{
     public void run(){
 
 
-        apagar = 0;
 
-        while (true){
+        while (apagar){
 
-            if(!this.isAlive()){
-                break;
-            }
+
 
             for(int i=0; i<31;i++){
                 for(int j=0; j<26; j++) {
@@ -48,9 +45,7 @@ public class hiloPacAba extends Thread{
             }
 
 
-            if(this.apagar ==  1 ){
-                break;
-            }
+
 
             if((String)matriz[xf][yf].getTag() == "vacio") {
                 matriz[xi][yi].setImageResource(R.mipmap.fondo);
@@ -73,9 +68,14 @@ public class hiloPacAba extends Thread{
 
     }
 
-    public void acabar() {
-        this.apagar = 1;
+    public  void start(){
 
+        this.apagar = true;
+        new Thread(this).start();
+    }
+
+    public void acabar() {
+        this.apagar = false;
     }
 
 

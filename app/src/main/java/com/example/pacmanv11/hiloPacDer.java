@@ -11,7 +11,7 @@ public class hiloPacDer extends Thread {
     private int yi = 0;
     private int xf = 0;
     private int yf = 0;
-    private static int apagar = 0;
+    public static boolean apagar;
 
     public hiloPacDer(ImageView[][]m) {
         matriz = m;
@@ -21,13 +21,11 @@ public class hiloPacDer extends Thread {
     public void run(){
 
 
-        apagar = 0;
 
-        while (true){
 
-            if(!this.isAlive()){
-                break;
-            }
+
+        while (apagar){
+
 
             for(int i=0; i<31;i++){
                 for(int j=0; j<26; j++) {
@@ -42,15 +40,11 @@ public class hiloPacDer extends Thread {
                 }
             }
 
-            if(xi!=0){
                 xf=xi;
                 yf=yi-1;
-            }
 
 
-            if(this.apagar ==  1 ){
-                break;
-            }
+
 
             if((String)matriz[xf][yf].getTag() == "vacio") {
                 matriz[xi][yi].setImageResource(R.mipmap.fondo);
@@ -73,8 +67,17 @@ public class hiloPacDer extends Thread {
 
     }
 
+
+    public  void start(){
+
+        this.apagar = true;
+        new Thread(this).start();
+    }
+
     public void acabar() {
-        this.apagar = 1;
+
+        this.apagar = false;
+        this.interrupt();
 
     }
 }
