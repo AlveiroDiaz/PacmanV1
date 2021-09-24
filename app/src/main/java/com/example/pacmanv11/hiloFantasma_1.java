@@ -99,7 +99,6 @@ public class hiloFantasma_1 extends Thread{
 
 
             if (matriz[xf][yf].getTag() == "pared" && aba != 0) {
-                System.out.println("PARED");
                 xf = xf - 1;
             }
                 if (matriz[xf][yf].getTag() == "pared" && arr != 0) {
@@ -134,6 +133,14 @@ public class hiloFantasma_1 extends Thread{
             }
 
 
+
+
+            if ((String) matriz[xf][yf].getTag() == "galleta") {
+                matriz[xi][yi].setImageResource(R.mipmap.galleta);
+                matriz[xi][yi].setTag("galleta");
+                matriz[xf][yf].setImageResource(R.mipmap.fantasma1);
+                matriz[xf][yf].setTag("fan1");
+            }
 
                 if ((String) matriz[xf][yf].getTag() == "vacio") {
                     matriz[xi][yi].setImageResource(R.mipmap.fondo);

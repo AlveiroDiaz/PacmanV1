@@ -46,7 +46,7 @@ public class hiloPacDer extends Thread {
 
 
 
-            if((String)matriz[xf][yf].getTag() == "vacio") {
+            if((String)matriz[xf][yf].getTag() == "vacio" || (String)matriz[xf][yf].getTag() == "galleta") {
                 matriz[xi][yi].setImageResource(R.mipmap.fondo);
                 matriz[xi][yi].setTag("vacio");
                 matriz[xf][yf].setImageResource(R.mipmap.pac_izquierda);

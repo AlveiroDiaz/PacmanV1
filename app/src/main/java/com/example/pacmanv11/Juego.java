@@ -1,200 +1,79 @@
 package com.example.pacmanv11;
 
+import android.graphics.Point;
+import android.os.Bundle;
+import android.view.Display;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-
-public class Juego {
-
-    private int xi = 0;
-    private int yi = 0;
-    private int xf = 0;
-    private int yf = 0;
-
-    public int getXi() {
-        return xi;
-    }
-
-    public void setXi(int xi) {
-        this.xi = xi;
-    }
-
-    public int getYi() {
-        return yi;
-    }
-
-    public void setYi(int yi) {
-        this.yi = yi;
-    }
-
-    public int getXf() {
-        return xf;
-    }
-
-    public void setXf(int xf) {
-        this.xf = xf;
-    }
-
-    public int getYf() {
-        return yf;
-    }
-
-    public void setYf(int yf) {
-        this.yf = yf;
-    }
-
-    public void izquieda(ImageView [][]m) {
-
-
-
-
-        for(int i=0; i<31;i++){
-            for(int j=0; j<26; j++) {
-
-               String aux = (String) m[i][j].getTag();
-
-                if( aux == "pac"){
-                    xi = i;
-                    yi = j;
-                }
-
-            }
-        }
-
-        if(xi!=0){
-            xf=xi;
-            yf=yi+1;
-        }
-
-
-
-
-
-        if((String)m[xf][yf].getTag() == "vacio") {
-            m[xi][yi].setImageResource(R.mipmap.fondo);
-            m[xi][yi].setTag("vacio");
-            m[xf][yf].setImageResource(R.mipmap.pac_izquierda);
-            m[xf][yf].setTag("pac");
-        }
-
-
-
-
-
-    }
-
-
-    public void derecha(ImageView [][]m) {
-
-
-
-
-        for(int i=0; i<31;i++){
-            for(int j=0; j<26; j++) {
-
-                String aux = (String) m[i][j].getTag();
-
-                if( aux == "pac"){
-                    xi = i;
-                    yi = j;
-                }
-
-            }
-        }
-
-        if(xi!=0){
-            xf=xi;
-            yf=yi-1;
-        }
-
-
-
-        if((String)m[xf][yf].getTag() == "vacio") {
-            m[xi][yi].setImageResource(R.mipmap.fondo);
-            m[xi][yi].setTag("vacio");
-            m[xf][yf].setImageResource(R.mipmap.pac_izquierda);
-            m[xf][yf].setTag("pac");
-        }
-
-
-
-
-
-    }
-
-    public void arriba(ImageView [][]m) {
-
-
-
-
-
-        for(int i=0; i<31;i++){
-            for(int j=0; j<26; j++) {
-
-                String aux = (String) m[i][j].getTag();
-
-                if( aux == "pac"){
-                    xi = i;
-                    yi = j;
-                }
-
-            }
-        }
-
-        if(xi!=0){
-            xf=xi-1;
-            yf=yi;
-        }
-
-
-
-
-        if((String)m[xf][yf].getTag() == "vacio") {
-            m[xi][yi].setImageResource(R.mipmap.fondo);
-            m[xi][yi].setTag("vacio");
-            m[xf][yf].setImageResource(R.mipmap.pac_izquierda);
-            m[xf][yf].setTag("pac");
-        }
-
-
-
-
-    }
-    public void abajo(ImageView [][]m) {
-
-
-
-
-
-
-        for(int i=0; i<31;i++){
-            for(int j=0; j<26; j++) {
-
-                String aux = (String) m[i][j].getTag();
-
-                if( aux == "pac"){
-                    xi = i;
-                    yi = j;
-                }
-
-            }
-        }
-
-        if(xi!=0){
-            xf=xi+1;
-            yf=yi;
-        }
-
-
-
-        if((String)m[xf][yf].getTag() == "vacio") {
-            m[xi][yi].setImageResource(R.mipmap.fondo);
-            m[xi][yi].setTag("vacio");
-            m[xf][yf].setImageResource(R.mipmap.pac_izquierda);
-            m[xf][yf].setTag("pac");
-        }
-
+import androidx.appcompat.app.AppCompatActivity;
+
+public class Juego  {
+
+    private int [][]casillas;
+
+
+    public int[][] Datos() {
+
+
+        /*
+            -1 = galleta
+            0 = fondo
+            1 = esq sup izq
+            2 = esq sup der
+            3 = esq inf izq
+            4 = esq inf der
+            5 = horiontal arriba
+            6 = horizontal abajo
+            7 = vertical izq
+            8 = vertical der
+            9 = pacman
+            10 = fantasma 1
+            11 = puerta
+         */
+
+
+        int lab[][] = {
+                {1,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,2},
+                {7,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,7,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,8},
+                {7,-1,1,5,5,2,-1,1,5,5,5,2,-1,7,-1,1,5,5,5,2,-1,1,5,2,-1,8},
+                {7,-1,7,0,0,8,-1,7,0,0,0,8,-1,7,-1,7,0,0,0,8,-1,7,0,8,-1,8},
+                {7,-1,3,6,6,4,-1,3,6,6,6,4,-1,7,-1,3,6,6,6,4,-1,3,6,4,-1,8},
+                {7,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,8},
+                {7,-1,1,5,5,2,-1,1,2,-1,1,5,5,5,5,5,2,-1,1,2,-1,1,5,2,-1,8},
+                {7,-1,3,6,6,4,-1,7,8,-1,3,6,6,7,6,6,4,-1,7,8,-1,3,6,4,-1,8},
+                {7,-1,0,0,0,0,-1,7,8,-1,-1,-1,-1,7,-1,-1,-1,-1,7,8,-1,0,0,0,-1,8},
+                {3,6,6,6,6,2,-1,7,3,5,5,2,-1,7,-1,1,6,6,4,8,-1,1,6,6,6,4},
+                {0,0,0,0,0,8,-1,7,1,6,6,4,-1,7,-1,3,5,5,2,8,-1,7,0,0,0,0},
+                {0,0,0,0,0,8,-1,7,8,-1,-1,-1,-1,-1,-1,-1,-1,-1,8,8,-1,7,0,0,0,0},
+                {0,0,0,0,0,8,-1,7,8,-1,1,5,5,11,5,5,2,-1,8,8,-1,7,0,0,0,0},
+                {6,6,6,6,6,4,-1,3,4,-1,7,0,0,10,0,0,8,-1,3,4,-1,3,6,6,6,6},
+                {8,-1,-1,-1,-1,-1,-1,-1,-1,-1,7,6,6,6,6,6,8,-1,-1,-1,-1,-1,-1,-1,-1,8},
+                {5,5,5,5,5,2,-1,1,2,-1,3,6,6,6,6,6,4,-1,1,2,-1,1,5,5,5,5},
+                {0,0,0,0,0,8,-1,7,8,-1,-1,-1,-1,9,-1,-1,-1,-1,7,8,-1,7,0,0,0,0},
+                {0,0,0,0,0,8,-1,7,8,-1,1,5,5,5,5,5,2,-1,7,8,-1,7,0,0,0,0},
+                {1,6,6,6,6,4,-1,3,4,-1,3,6,6,7,6,6,4,-1,3,4,-1,3,6,6,6,2},
+                {7,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,7,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,8},
+                {7,-1,1,5,5,2,-1,1,5,5,5,2,0,7,-1,1,5,5,5,2,-1,1,5,2,-1,8},
+                {7,-1,3,6,2,8,-1,3,6,6,6,4,0,7,-1,3,6,6,6,4,-1,7,1,4,-1,8},
+                {7,-1,-1,-1,8,8,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,7,8,-1,-1,8},
+                {3,5,2,-1,8,8,-1,1,2,-1,1,5,5,5,5,5,2,-1,1,2,-1,7,8,-1,1,4},
+                {1,6,4,-1,3,4,-1,8,8,-1,3,6,2,1,6,6,4,-1,7,7,-1,3,4,-1,3,2},
+                {7,-1,-1,-1,-1,-1,-1,8,8,-1,-1,-1,7,7,-1,-1,-1,-1,7,7,-1,-1,-1,-1,-1,8},
+                {7,-1,1,5,5,5,5,4,3,5,2,-1,7,7,-1,1,5,5,4,3,5,5,5,2,-1,8},
+                {7,-1,7,0,0,0,0,0,0,0,8,-1,7,7,-1,7,0,0,0,0,0,0,0,8,-1,8},
+                {7,-1,3,6,6,6,6,6,6,6,4,-1,3,4,-1,3,6,6,6,6,6,6,6,4,-1,8},
+                {7,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,8},
+                {3,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,4}
+        };
+        return lab;
 
     }
 }
