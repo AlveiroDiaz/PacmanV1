@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
             8 = vertical der
             9 = pacman
             10 = fantasma 1
+            11 = puerta
          */
 
 
@@ -70,9 +71,9 @@ public class MainActivity extends AppCompatActivity {
                              {3,6,6,6,6,2,0,7,3,5,5,2,0,7,0,1,6,6,4,8,0,1,6,6,6,4},
                              {0,0,0,0,0,8,0,7,1,6,6,4,0,7,0,3,5,5,2,8,0,7,0,0,0,0},
                              {0,0,0,0,0,8,0,7,8,0,0,0,0,0,0,0,0,0,8,8,0,7,0,0,0,0},
-                             {0,0,0,0,0,8,0,7,8,0,1,5,5,0,5,5,2,0,8,8,0,7,0,0,0,0},
-                             {6,6,6,6,6,4,0,3,4,0,7,0,0,0,0,0,8,0,3,4,0,3,6,6,6,6},
-                             {8,0,0,0,0,0,0,0,0,0,7,0,0,10,0,0,8,0,0,0,0,0,0,0,0,8},
+                             {0,0,0,0,0,8,0,7,8,0,1,5,5,11,5,5,2,0,8,8,0,7,0,0,0,0},
+                             {6,6,6,6,6,4,0,3,4,0,7,0,0,10,0,0,8,0,3,4,0,3,6,6,6,6},
+                             {8,0,0,0,0,0,0,0,0,0,7,6,6,6,6,6,8,0,0,0,0,0,0,0,0,8},
                              {5,5,5,5,5,2,0,1,2,0,3,6,6,6,6,6,4,0,1,2,0,1,5,5,5,5},
                              {0,0,0,0,0,8,0,7,8,0,0,0,0,9,0,0,0,0,7,8,0,7,0,0,0,0},
                              {0,0,0,0,0,8,0,7,8,0,1,5,5,5,5,5,2,0,7,8,0,7,0,0,0,0},
@@ -105,35 +106,35 @@ public class MainActivity extends AppCompatActivity {
                         }
                         if(lab[i][j]  == 1){
                             this.casillas[i][j].setImageResource(R.mipmap.esquina_sup_der);
-                            this.casillas[i][j].setTag("sup_izq");
+                            this.casillas[i][j].setTag("pared");
                         }
                         if(lab[i][j]  == 2){
                             this.casillas[i][j].setImageResource(R.mipmap.esquina_sup_izq);
-                            this.casillas[i][j].setTag("sup_der");
+                            this.casillas[i][j].setTag("pared");
                         }
                         if(lab[i][j]  == 3){
                             this.casillas[i][j].setImageResource(R.mipmap.inferior_der);
-                            this.casillas[i][j].setTag("inf_izq");
+                            this.casillas[i][j].setTag("pared");
                         }
                         if(lab[i][j]  == 4){
                             this.casillas[i][j].setImageResource(R.mipmap.inferior_izq);
-                            this.casillas[i][j].setTag("ind_der");
+                            this.casillas[i][j].setTag("pared");
                         }
                         if(lab[i][j]  == 5){
                             this.casillas[i][j].setImageResource(R.mipmap.horizo_arri);
-                            this.casillas[i][j].setTag("hor_arr");
+                            this.casillas[i][j].setTag("pared");
                         }
                         if(lab[i][j]  == 6){
                             this.casillas[i][j].setImageResource(R.mipmap.horizo_aba);
-                            this.casillas[i][j].setTag("hor_aba");
+                            this.casillas[i][j].setTag("pared");
                         }
                         if(lab[i][j]  == 7){
                             this.casillas[i][j].setImageResource(R.mipmap.vertical_izq);
-                            this.casillas[i][j].setTag("ver_izq");
+                            this.casillas[i][j].setTag("pared");
                         }
                         if(lab[i][j]  == 8){
                             this.casillas[i][j].setImageResource(R.mipmap.vertical_der);
-                            this.casillas[i][j].setTag("ver_der");
+                            this.casillas[i][j].setTag("pared");
                         }
                         if(lab[i][j]  == 9){
                             this.casillas[i][j].setImageResource(R.mipmap.pac_izquierda);
@@ -143,6 +144,11 @@ public class MainActivity extends AppCompatActivity {
                             this.casillas[i][j].setImageResource(R.mipmap.fantasma1);
                             this.casillas[i][j].setTag("fan1");
                         }
+                        if(lab[i][j]  == 11){
+                            this.casillas[i][j].setImageResource(R.mipmap.puerta);
+                            this.casillas[i][j].setTag("pared");
+                        }
+
 
                         this.gridLayout.addView(this.casillas[i][j]);
                     }
