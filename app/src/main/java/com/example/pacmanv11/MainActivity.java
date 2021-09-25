@@ -26,7 +26,9 @@ public class MainActivity extends AppCompatActivity {
     private float x1, x2;
     private float y1, y2;
     private Juego game ;
-    private hiloPacIzq hiloPacIzq;
+    private hiloPacIzq hiloPac;
+    private  Runnable r;
+    private  Thread t;
     private  int lab[][];
 
     @Override
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         this.gridLayout.setRowCount(31);
         this.linearLayout.addView(this.gridLayout);
         this.linearLayout.addView(this.reiniciar);
-        reiniciar.setText("hola");
+        reiniciar.setText("Reiniciar");
 
         Display display = getWindowManager().getDefaultDisplay();
         Point tam = new Point();
@@ -87,22 +89,24 @@ public class MainActivity extends AppCompatActivity {
         );
 
 
+      /*  r = new hiloPacIzq(casillas,puntaje,imagen,600);
+         t = new Thread(r);
+         t.start();*/
 
-
-        hiloPacIzq = new hiloPacIzq(casillas,puntaje,imagen);
-        hiloPacIzq.start();
+        hiloPac = new hiloPacIzq(casillas,puntaje,imagen,600);
+        hiloPac.start();
         hiloFantasma_1 fantasma_1 = new hiloFantasma_1(casillas);
         fantasma_1.start();
-
+        int cont = 0;
         reiniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                hiloPacIzq.acabar();
-                hiloPacIzq hilo = new hiloPacIzq(casillas,puntaje,imagen);
+                hiloPac.acabar();
                 nuevoJuego();
-                hilo.start();
-
+                hiloPac = new hiloPacIzq(casillas,puntaje,imagen,600);
+                hiloPac.reinicioP();
+                hiloPac.start();
 
             }
         });
@@ -113,10 +117,7 @@ public class MainActivity extends AppCompatActivity {
     private void nuevoJuego() {
 
 
-
-
         gridLayout.removeAllViews();
-
 
         for(int i=0; i<31;i++){
             for(int j=0; j<26; j++){
@@ -188,33 +189,22 @@ public class MainActivity extends AppCompatActivity {
 
     private void movimiento() {
         String dir = null;
-       /*
-        hiloPacDer hiloDer = new hiloPacDer(casillas);;
-        hiloPacArr hiloPacArr = new hiloPacArr(casillas);
-        hiloPacAba hiloPacAba = new hiloPacAba(casillas);*/
         float dx = Math.abs(this.x2 - this.x1);
         float dy = Math.abs(this.y2 - this.y1);
 
-
-
         if(dx > dy){
             if(this.x2 > this.x1){
-                hiloPacIzq.izq();
-
+                hiloPac.izq();
             }else{
-
-                hiloPacIzq.derecha();
-
+                hiloPac.derecha();
             }
         }else{
             if(this.y2 > this.y1){
-                hiloPacIzq.arriba();
-
+                hiloPac.arriba();
             }else{
-                hiloPacIzq.aba();
+                hiloPac.aba();
             }
         }
-     //   Toast.makeText(getApplicationContext(), dir, Toast.LENGTH_SHORT).show();
     }
 
 

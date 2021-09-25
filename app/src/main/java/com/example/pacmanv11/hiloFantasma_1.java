@@ -15,7 +15,7 @@ public class hiloFantasma_1 extends Thread{
     private int yi = 0;
     private int xf = 0;
     private int yf = 0;
-    private static boolean apagar;
+    private   boolean apagar;
 
 
     public hiloFantasma_1(ImageView[][] matriz) {
@@ -178,7 +178,6 @@ public class hiloFantasma_1 extends Thread{
 
         public void acabar () {
             this.apagar = false;
-            this.interrupt();
 
 
         }
