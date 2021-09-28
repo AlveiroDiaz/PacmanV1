@@ -1,9 +1,8 @@
 package com.example.pacmanv11;
 
-
 import android.widget.ImageView;
 
-public class hiloFantasma_1 extends Thread{
+public class hiloFantasma_3 extends Thread{
 
 
 
@@ -17,9 +16,10 @@ public class hiloFantasma_1 extends Thread{
     private int yf = 0;
     private ImageView imagen;
     private  volatile boolean apagar = false;
+    private  volatile boolean azul = false;
 
 
-    public hiloFantasma_1(ImageView[][] matriz,ImageView imagen) {
+    public hiloFantasma_3(ImageView[][] matriz,ImageView imagen) {
         this.matriz = matriz;
         this.imagen = imagen;
 
@@ -27,13 +27,23 @@ public class hiloFantasma_1 extends Thread{
 
     public void run() {
 
-        matriz[13][13].setImageResource(R.mipmap.fondo);
-        matriz[13][13].setTag("vacio");
-        matriz[11][13].setImageResource(R.mipmap.fantasma1);
-        matriz[11][13].setTag("fan1");
+
+        try {
+            Thread.sleep(30000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        matriz[13][14].setImageResource(R.mipmap.fondo);
+        matriz[13][14].setTag("vacio");
+        matriz[11][13].setImageResource(R.mipmap.fantasma3);
+        matriz[11][13].setTag("fan3");
 
 
         while (!apagar) {
+        int aux1 =0;
+
+
 
             for (int i = 0; i < 31; i++) {
                 for (int j = 0; j < 26; j++) {
@@ -53,7 +63,7 @@ public class hiloFantasma_1 extends Thread{
 
                     String aux = (String) matriz[i][j].getTag();
 
-                    if (aux == "fan1") {
+                    if (aux == "fan3") {
                         xi = i;
                         yi = j;
                     }
@@ -125,58 +135,63 @@ public class hiloFantasma_1 extends Thread{
                 }
             }
 
-
-
-
-
-
+            System.out.println("xf"+xf + "yf"+yf);
 
 
             if ((String) matriz[xf][yf].getTag() == "galleta") {
                 matriz[xi][yi].setImageResource(R.mipmap.galleta);
                 matriz[xi][yi].setTag("galleta");
-                matriz[xf][yf].setImageResource(R.mipmap.fantasma1);
-                matriz[xf][yf].setTag("fan1");
+                matriz[xf][yf].setImageResource(R.mipmap.fantasma3);
+                matriz[xf][yf].setTag("fan3");
+
             }
             if ((String) matriz[xf][yf].getTag() == "galletota") {
                 matriz[xi][yi].setImageResource(R.mipmap.galleta);
                 matriz[xi][yi].setTag("galletota");
-                matriz[xf][yf].setImageResource(R.mipmap.fantasma2);
-                matriz[xf][yf].setTag("fan1");
+                matriz[xf][yf].setImageResource(R.mipmap.fantasma3);
+                matriz[xf][yf].setTag("fan3");
+
+
             }
 
 
             if ((String) matriz[xf][yf].getTag() == "vacio") {
-                    matriz[xi][yi].setImageResource(R.mipmap.fondo);
-                    matriz[xi][yi].setTag("vacio");
-                    matriz[xf][yf].setImageResource(R.mipmap.fantasma1);
-                    matriz[xf][yf].setTag("fan1");
-                }
+                matriz[xi][yi].setImageResource(R.mipmap.fondo);
+                matriz[xi][yi].setTag("vacio");
+                matriz[xf][yf].setImageResource(R.mipmap.fantasma3);
+                matriz[xf][yf].setTag("fan3");
+
+
+            }
 
             if ((String) matriz[xf][yf].getTag() == "pac") {
                 imagen.setImageResource(R.mipmap.perdio);
-               MainActivity.getInstance().acabar();
+                MainActivity.getInstance().acabar();
                 break;
             }
 
-                try {
-                    Thread.sleep(600);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
+            try {
+                Thread.sleep(600);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
         }
 
+    }
 
 
 
-        public void acabar () {
-            this.apagar = true;
-        }
+    public void acabar () {
+        this.apagar = true;
+    }
 
-
+    public void azul(){
+        this.azul = true;
+    }
+    public void azulOff(){
+        this.azul = false;
+    }
 
 
 }
