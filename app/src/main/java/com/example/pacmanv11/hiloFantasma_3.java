@@ -14,6 +14,7 @@ public class hiloFantasma_3 extends Thread{
     private int yi = 0;
     private int xf = 0;
     private int yf = 0;
+    private static int time = 600;
     private ImageView imagen;
     private  volatile boolean apagar = false;
     private  volatile boolean azul = false;
@@ -135,7 +136,7 @@ public class hiloFantasma_3 extends Thread{
                 }
             }
 
-            System.out.println("xf"+xf + "yf"+yf);
+      //      System.out.println("xf"+xf + "yf"+yf);
 
 
             if ((String) matriz[xf][yf].getTag() == "galleta") {
@@ -171,7 +172,7 @@ public class hiloFantasma_3 extends Thread{
             }
 
             try {
-                Thread.sleep(600);
+                Thread.sleep(time);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -185,6 +186,7 @@ public class hiloFantasma_3 extends Thread{
     public void acabar () {
         this.apagar = true;
     }
+    public void tiempo () {this.time = time-100;}
 
     public void azul(){
         this.azul = true;

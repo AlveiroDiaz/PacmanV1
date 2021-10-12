@@ -3,6 +3,8 @@ package com.example.pacmanv11;
 
 import android.widget.ImageView;
 
+import org.example.logica.usuario;
+
 public class hiloFantasma_1 extends Thread{
 
 
@@ -16,6 +18,8 @@ public class hiloFantasma_1 extends Thread{
     private int xf = 0;
     private int yf = 0;
     private ImageView imagen;
+    private static int time = 600;
+
     private  volatile boolean apagar = false;
 
 
@@ -26,11 +30,6 @@ public class hiloFantasma_1 extends Thread{
     }
 
     public void run() {
-
-        matriz[13][13].setImageResource(R.mipmap.fondo);
-        matriz[13][13].setTag("vacio");
-        matriz[11][13].setImageResource(R.mipmap.fantasma1);
-        matriz[11][13].setTag("fan1");
 
 
         while (!apagar) {
@@ -126,12 +125,6 @@ public class hiloFantasma_1 extends Thread{
             }
 
 
-
-
-
-
-
-
             if ((String) matriz[xf][yf].getTag() == "galleta") {
                 matriz[xi][yi].setImageResource(R.mipmap.galleta);
                 matriz[xi][yi].setTag("galleta");
@@ -160,7 +153,7 @@ public class hiloFantasma_1 extends Thread{
             }
 
                 try {
-                    Thread.sleep(600);
+                    Thread.sleep(time);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -171,7 +164,7 @@ public class hiloFantasma_1 extends Thread{
 
 
 
-
+        public void tiempo () {this.time = time-100;}
         public void acabar () {
             this.apagar = true;
         }

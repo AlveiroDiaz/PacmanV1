@@ -3,10 +3,15 @@ package com.example.pacmanv11;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.example.logica.SingletonFireBase;
+import org.example.logica.usuario;
+
 public class hiloPacman extends Thread{
 
     private ImageView [][]matriz;
     private TextView puntaje;
+    private TextView puntaje2;
+
     private static int puntos = 0;
     private static String dir = "quieto";
     private int xi = 0;
@@ -16,15 +21,18 @@ public class hiloPacman extends Thread{
     private ImageView imagen;
     private volatile boolean apagar = false;
     hiloFantasma_3 hilo3;
+    private usuario user2;
     private int time;
 
 
-    public hiloPacman(ImageView[][]m, TextView puntaje, ImageView image, int time, hiloFantasma_3 hilo3) {
+    public hiloPacman(ImageView[][]m, TextView puntaje,TextView puntaje2, ImageView image, int time, hiloFantasma_3 hilo3) {
         this.puntaje = puntaje;
+        this.puntaje2 = puntaje2;
         this.imagen = image;
         this.matriz = m;
         this.time = time;
         this.hilo3 = hilo3;
+
     }
 
     public void run(){
@@ -43,7 +51,7 @@ public class hiloPacman extends Thread{
                auxAxul = 0;
            }*/
 
-            System.out.println("ejectuta hilo " + getName());
+          //  System.out.println("ejectuta hilo " + getName());
             for (int i = 0; i < 31; i++) {
                 for (int j = 0; j < 26; j++) {
 
@@ -91,6 +99,9 @@ public class hiloPacman extends Thread{
                 matriz[xf][yf].setImageResource(R.mipmap.pac_izquierda);
                 matriz[xf][yf].setTag("pac");
                 puntos = puntos + 10;
+
+                SingletonFireBase.getInstance().guardar(MainActivity.getInstance().getUser(), MainActivity.getInstance().getNom() ,puntos, MainActivity.getInstance().getEstado(),MainActivity.getInstance().getGalleta());
+
                 puntaje.setText("Score: " + puntos);
 
             }
@@ -99,10 +110,11 @@ public class hiloPacman extends Thread{
                 matriz[xi][yi].setTag("vacio");
                 matriz[xf][yf].setImageResource(R.mipmap.pac_izquierda);
                 matriz[xf][yf].setTag("pac");
-                //hilo3.azul();
                 puntos = puntos + 50;
                 puntaje.setText("Score: " + puntos);
-               // auxAxul++;
+             //   user2.setGalleta(true);
+                SingletonFireBase.getInstance().guardar(user2.getCodigo(),user2.getNombre() ,user2.getPuntaje(),user2.getEstado(), true);
+               // MainActivity.getInstance().setGalleta(true);
 
             }
             if ((String) matriz[xf][yf].getTag() == "pared") {
@@ -124,8 +136,6 @@ public class hiloPacman extends Thread{
 
         }
 
-
-        System.out.println("Murio el hilo");
 
     }
 
@@ -155,6 +165,10 @@ public class hiloPacman extends Thread{
 
     public void acabar() {
         this.apagar = true;
+    }
+
+    public void editar(usuario user2){
+        this.user2 = user2;
     }
 
 }

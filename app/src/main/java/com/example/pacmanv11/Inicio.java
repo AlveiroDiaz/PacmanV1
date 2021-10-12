@@ -1,4 +1,7 @@
 package com.example.pacmanv11;
 
-public class hiloFantaasma_4 {
+public class Inicio {
+
+
+
 }
