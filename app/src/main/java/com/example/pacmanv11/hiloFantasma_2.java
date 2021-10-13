@@ -172,7 +172,7 @@ public class hiloFantasma_2 extends Thread{
     }
 
 
-    public void tiempo () {this.time = time-100;}
+    public void tiempo () {this.time = time-50;}
     public void acabar () {
         this.apagar = true;
     }

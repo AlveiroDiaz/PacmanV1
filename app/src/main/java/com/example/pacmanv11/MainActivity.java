@@ -55,7 +55,8 @@ public class MainActivity extends AppCompatActivity {
     private static hiloFantasma_2 fantasma_2;
     private static hiloFantasma_3 fantasma_3;
     private int lab[][];
-    private  usuario user2;
+    private usuario user2;
+    private static boolean restart = false;
     private static MainActivity instance = new MainActivity();
     private Button base;
 
@@ -93,9 +94,10 @@ public class MainActivity extends AppCompatActivity {
         this.linearLayout.addView(this.galleta3);
         this.linearLayout.addView(this.galleta4);
         linearLayout.setGravity(View.TEXT_ALIGNMENT_CENTER);
+        reiniciar.setVisibility(View.INVISIBLE);
 
-      //  this.linearLayout.addView(this.reiniciar);
-     //  reiniciar.setText("Reiniciar");
+        //  this.linearLayout.addView(this.reiniciar);
+        //  reiniciar.setText("Reiniciar");
 
         Display display = getWindowManager().getDefaultDisplay();
         Point tam = new Point();
@@ -137,35 +139,23 @@ public class MainActivity extends AppCompatActivity {
         );
 
 
-
-         fantasma_1= new hiloFantasma_1(casillas, imagen);
+        fantasma_1 = new hiloFantasma_1(casillas, imagen);
         fantasma_1.start();
         fantasma_2 = new hiloFantasma_2(casillas, imagen);
         fantasma_2.start();
         fantasma_3 = new hiloFantasma_3(casillas, imagen);
         fantasma_3.start();
-        hiloPac = new hiloPacman(casillas, puntaje,puntaje2, imagen, 600,fantasma_3);
+        hiloPac = new hiloPacman(casillas, puntaje, puntaje2, imagen, 600, fantasma_3);
         hiloPac.start();
         int cont = 0;
 
         reiniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                hiloPac.acabar();
-                fantasma_1.acabar();
-                fantasma_2.acabar();
-                fantasma_3.acabar();
-                nuevoJuego();
-                fantasma_1 = new hiloFantasma_1(casillas, imagen);
-                fantasma_1.start();
-                fantasma_2 = new hiloFantasma_2(casillas, imagen);
-                fantasma_2.start();
-                fantasma_3 = new hiloFantasma_3(casillas, imagen);
-                fantasma_3.start();
-                hiloPac = new hiloPacman(casillas, puntaje,puntaje2, imagen, 600,fantasma_3);
-                hiloPac.quieto();
-                hiloPac.reinicioP();
-                hiloPac.start();
+
+                        SingletonFireBase.getInstance().guardar(usuario,nombre , 0, true, false,true);
+                        SingletonFireBase.getInstance().guardar(user2.getCodigo(), user2.getNombre(), 0, true, false,true);
+
             }
         });
 
@@ -176,50 +166,75 @@ public class MainActivity extends AppCompatActivity {
                 DataSnapshot primero = null;
                 DataSnapshot ultimo = null;
 
-                if( dataSnapshot.getChildrenCount() != 0) {
+                if (dataSnapshot.getChildrenCount() != 0) {
 
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         ultimo = snapshot;
                         usuario user = ultimo.getValue(usuario.class);
 
-                        if(user.getCodigo() == getUser()){
+                        if (user.getCodigo() == getUser()) {
                             setGalleta(user.getGalleta());
+                            setRestart(user.getRestart());
+                            setEstado(user.getEstado());
+                            setPuntos(user.getPuntaje());
+                            puntaje.setText("Player 1( " + getNom() +") :  " + puntos);
 
-                            if(galleta == true){
+                            if (galleta == true) {
                                 galleta = false;
-                                SingletonFireBase.getInstance().guardar(usuario, nombre,puntos,estado,galleta);
-                                contGalletas = contGalletas+1;
+                                SingletonFireBase.getInstance().guardar(usuario, nombre, puntos, estado, galleta,restart);
+                                contGalletas = contGalletas + 1;
                                 galleta1.setText(user2.getNombre() + " SE COMIO UNA GALLETA ");
                                 galleta2.setText("Velocidad Fantasmas X" + contGalletas);
                                 fantasma_1.tiempo();
+                                fantasma_2.tiempo();
+                                fantasma_3.tiempo();
                             }
+
+                            if(estado == false){
+                                reiniciar.setText("REVANCHA");
+                                reiniciar.setVisibility(View.VISIBLE);
+                            }
+
+                            if(restart == true){
+                                hiloPac.acabar();
+                                fantasma_1.acabar();
+                                fantasma_2.acabar();
+                                fantasma_3.acabar();
+                                nuevoJuego();
+                                fantasma_1 = new hiloFantasma_1(casillas, imagen);
+                                fantasma_1.start();
+                                fantasma_2 = new hiloFantasma_2(casillas, imagen);
+                                fantasma_2.start();
+                                fantasma_3 = new hiloFantasma_3(casillas, imagen);
+                                fantasma_3.start();
+                                hiloPac = new hiloPacman(casillas, puntaje, puntaje2, imagen, 600, fantasma_3);
+                                hiloPac.quieto();
+                                hiloPac.reinicioP();
+                                hiloPac.start();
+                               SingletonFireBase.getInstance().guardar(usuario,nombre , 0, true, false,false);
+                                SingletonFireBase.getInstance().guardar(user2.getCodigo(), user2.getNombre(), 0, true, false,false);
+                            }
+
                         }
 
-                        if(user.getCodigo() != getUser()){
+                        if (user.getCodigo() != getUser()) {
 
                             user2 = user;
                             hiloPac.editar(user);
-                            puntaje2.setText(user.getNombre() +" : " +user.getPuntaje());
-
-                            if(user.getEstado() == false){
+                            puntaje2.setText("Player 2 ("+user.getNombre() + ") :  " + user.getPuntaje());
+                            if (user.getEstado() == false) {
                                 imagen.setImageResource(R.mipmap.ganador);
                                 hiloPac.acabar();
                                 fantasma_1.acabar();
                                 fantasma_2.acabar();
                                 fantasma_3.acabar();
+                                reiniciar.setText("REVANCHA");
+                                reiniciar.setVisibility(View.VISIBLE);
                             }
-
                         }
                     }
-
-
-
-
-                    }
-
-
-
                 }
+            }
 
 
             @Override
@@ -230,14 +245,18 @@ public class MainActivity extends AppCompatActivity {
         SingletonFireBase.getInstance().getmDatabase().child("Usuarios").addValueEventListener(estudianteListener);
 
 
-
     }
 
 
     private void nuevoJuego() {
 
         imagen.setImageResource(R.mipmap.pacman);
+        galleta1.setText("");
+        galleta2.setText("");
+        puntaje.setText("Player 1 (" + nombre + ") :  0");
+        puntaje2.setText("Player 2 ( )" + ": 0");
         gridLayout.removeAllViews();
+        reiniciar.setVisibility(View.INVISIBLE);
 
         for (int i = 0; i < 31; i++) {
             for (int j = 0; j < 26; j++) {
@@ -273,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
                     this.casillas[i][j].setTag("pared");
                 }
                 if (lab[i][j] == 5) {
-                    this.casillas[i][j].setImageResource(R.mipmap.horizo_arri);
+                    this.casillas[i][j].setImageResource(R.mipmap.horizo_aba);
                     this.casillas[i][j].setTag("pared");
                 }
                 if (lab[i][j] == 6) {
@@ -281,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
                     this.casillas[i][j].setTag("pared");
                 }
                 if (lab[i][j] == 7) {
-                    this.casillas[i][j].setImageResource(R.mipmap.vertical_izq);
+                    this.casillas[i][j].setImageResource(R.mipmap.vertical_der);
                     this.casillas[i][j].setTag("pared");
                 }
                 if (lab[i][j] == 8) {
@@ -304,14 +323,10 @@ public class MainActivity extends AppCompatActivity {
                     this.casillas[i][j].setImageResource(R.mipmap.fantasma2);
                     this.casillas[i][j].setTag("fan2");
                 }
-                if(lab[i][j] == 13){
+                if (lab[i][j] == 13) {
                     this.casillas[i][j].setImageResource(R.mipmap.fantasma3);
                     this.casillas[i][j].setTag("fan3");
                 }
-          /*      if(lab[i][j] == 14){
-                    this.casillas[i][j].setImageResource(R.mipmap.fantasma4);
-                    this.casillas[i][j].setTag("fan4");
-                }*/
                 this.gridLayout.addView(this.casillas[i][j]);
             }
         }
@@ -339,8 +354,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-    public void setUsuario(int num){
+    public void setUsuario(int num) {
         this.usuario = num;
     }
 
@@ -370,37 +384,44 @@ public class MainActivity extends AppCompatActivity {
         return instance;
     }
 
-    public int getUser(){
+    public int getUser() {
         return this.usuario;
     }
 
-    public String getNom(){
+    public String getNom() {
         return this.nombre;
     }
 
-    public  boolean getEstado() {
+    public boolean getEstado() {
         return estado;
     }
 
-    public  boolean getGalleta() {
+    public boolean getGalleta() {
         return galleta;
     }
 
-    public  void setGalleta(boolean galleta) {
+    public boolean getRestart() {
+        return restart;
+    }
+
+    public void setRestart(boolean restart) {
+        MainActivity.restart = restart;
+    }
+
+    public void setPuntos(int punto){
+        this.puntos = punto;
+    }
+
+    public void setGalleta(boolean galleta) {
         this.galleta = galleta;
     }
 
-    public static void acabar(){
-
+    public void acabar() {
         estado = false;
-        SingletonFireBase.getInstance().guardar(usuario, nombre ,puntos, estado, galleta );
+        SingletonFireBase.getInstance().guardar(usuario, nombre, puntos, estado, galleta, restart);
         hiloPac.acabar();
         fantasma_1.acabar();
         fantasma_2.acabar();
         fantasma_3.acabar();
-       // fantasma_4.acabar();
-
-
-
     }
 }

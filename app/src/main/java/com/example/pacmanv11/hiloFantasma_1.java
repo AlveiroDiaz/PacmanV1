@@ -146,7 +146,11 @@ public class hiloFantasma_1 extends Thread{
                     matriz[xf][yf].setTag("fan1");
                 }
 
-            if ((String) matriz[xf][yf].getTag() == "pac") {
+            if ((String) matriz[xf][yf].getTag() == "pac" ) {
+                matriz[xi][yi].setImageResource(R.mipmap.fondo);
+                matriz[xi][yi].setTag("vacio");
+                matriz[xf][yf].setImageResource(R.mipmap.fantasma1);
+                matriz[xf][yf].setTag("fan1");
                 imagen.setImageResource(R.mipmap.perdio);
                MainActivity.getInstance().acabar();
                 break;
@@ -164,7 +168,7 @@ public class hiloFantasma_1 extends Thread{
 
 
 
-        public void tiempo () {this.time = time-100;}
+        public void tiempo () {this.time = time-50;}
         public void acabar () {
             this.apagar = true;
         }

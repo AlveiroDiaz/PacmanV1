@@ -19,14 +19,16 @@ public class SingletonFireBase {
             mDatabase = FirebaseDatabase.getInstance().getReference();
         }
 
-        public void guardar(int codigo,String nombre,int puntaje,boolean estado,boolean galleta){
-            usuario user = new usuario(codigo,nombre,puntaje,estado,galleta);
+        public void guardar(int codigo,String nombre,int puntaje,boolean estado,boolean galleta,boolean restart){
+            usuario user = new usuario(codigo,nombre,puntaje,estado,galleta,restart);
             this.mDatabase.child("Usuarios").child(String.valueOf(codigo)).setValue(user);
         }
 
         public void borrar(){
             this.mDatabase.removeValue();
         }
+
+
 
 
 }

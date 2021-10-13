@@ -7,18 +7,20 @@ public class usuario {
     private int puntaje;
     private boolean estado;
     private boolean galleta;
+    private boolean restart;
 
 
     public usuario() {
 
     }
 
-    public usuario(int codigo, String nombre, int puntaje, boolean estado, boolean galleta) {
+    public usuario(int codigo, String nombre, int puntaje, boolean estado, boolean galleta, boolean restart) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.puntaje=puntaje;
         this.estado=estado;
         this.galleta=galleta;
+        this.restart = restart;
     }
 
     public int getCodigo() {
@@ -59,6 +61,14 @@ public class usuario {
 
     public void setPuntaje(int puntaje) {
         this.puntaje = puntaje;
+    }
+
+    public boolean getRestart() {
+        return restart;
+    }
+
+    public void setRestart(boolean restart) {
+        this.restart = restart;
     }
 
     @Override

@@ -56,12 +56,10 @@ public class PantallaInicial extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    DataSnapshot ultimo = null;
-
+                   DataSnapshot ultimo = null;
                   if( dataSnapshot.getChildrenCount() != 0){
                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                            ultimo = snapshot;
-
                        }
 
                        usuario user = ultimo.getValue(usuario.class);
@@ -71,7 +69,6 @@ public class PantallaInicial extends AppCompatActivity {
                           Intent intent = new Intent(PantallaInicial.this, MainActivity.class);
                           startActivity(intent);
                       }
-
                        procesarUsuario(user);
                    }
             }
@@ -82,8 +79,6 @@ public class PantallaInicial extends AppCompatActivity {
             }
         };
         SingletonFireBase.getInstance().getmDatabase().child("Usuarios").addValueEventListener(estudianteListener);
-
-
     }
 
     private void procesarUsuario(usuario estudiante) {
@@ -92,6 +87,6 @@ public class PantallaInicial extends AppCompatActivity {
     }
 
     private void agregar() {
-        SingletonFireBase.getInstance().guardar((usuarios+1),String.valueOf(this.labelNombre.getText()),0, true, false);
+        SingletonFireBase.getInstance().guardar((usuarios+1),String.valueOf(this.labelNombre.getText()),0, true, false,false);
     }
 }

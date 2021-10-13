@@ -43,15 +43,8 @@ public class hiloPacman extends Thread{
 
         while (!apagar) {
 
-       /*    if(auxAxul<15 && auxAxul>1){
-               auxAxul++;
-           }
-           if(auxAxul > 15){
-               hilo3.azulOff();
-               auxAxul = 0;
-           }*/
+            MainActivity.getInstance().setPuntos(puntos);
 
-          //  System.out.println("ejectuta hilo " + getName());
             for (int i = 0; i < 31; i++) {
                 for (int j = 0; j < 26; j++) {
 
@@ -100,9 +93,10 @@ public class hiloPacman extends Thread{
                 matriz[xf][yf].setTag("pac");
                 puntos = puntos + 10;
 
-                SingletonFireBase.getInstance().guardar(MainActivity.getInstance().getUser(), MainActivity.getInstance().getNom() ,puntos, MainActivity.getInstance().getEstado(),MainActivity.getInstance().getGalleta());
+                SingletonFireBase.getInstance().guardar(MainActivity.getInstance().getUser(), MainActivity.getInstance().getNom() ,puntos, MainActivity.getInstance().getEstado(),MainActivity.getInstance().getGalleta(),MainActivity.getInstance().getRestart());
 
-                puntaje.setText("Score: " + puntos);
+       //         puntaje.setText("Score: " + puntos);
+
 
             }
             if ((String) matriz[xf][yf].getTag() == "galletota") {
@@ -111,9 +105,9 @@ public class hiloPacman extends Thread{
                 matriz[xf][yf].setImageResource(R.mipmap.pac_izquierda);
                 matriz[xf][yf].setTag("pac");
                 puntos = puntos + 50;
-                puntaje.setText("Score: " + puntos);
+            //    puntaje.setText("Score: " + puntos);
              //   user2.setGalleta(true);
-                SingletonFireBase.getInstance().guardar(user2.getCodigo(),user2.getNombre() ,user2.getPuntaje(),user2.getEstado(), true);
+                SingletonFireBase.getInstance().guardar(user2.getCodigo(),user2.getNombre() ,user2.getPuntaje(),user2.getEstado(), true,user2.getRestart());
                // MainActivity.getInstance().setGalleta(true);
 
             }
@@ -122,7 +116,6 @@ public class hiloPacman extends Thread{
                 yf = yi;
             }
             if ((String) matriz[xf][yf].getTag() == "fan1") {
-
                 imagen.setImageResource(R.mipmap.perdio);
                 break;
             }
